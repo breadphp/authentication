@@ -2,15 +2,24 @@
 	"name" : "bread/authentication",
 	"description" : "Bread authentication library",
 	"type" : "library",
+	"authors" : [{
+			"name" : "Giovanni Lovato",
+			"email" : "heruan@aldu.net"
+		}
+	],
 	"keywords" : [
 		"bread",
 		"authentication"
 	],
+	"homepage" : "https://github.com/breadphp/authentication",
 	"license" : [
 		"CC-BY-3.0"
 	],
 	"require" : {
-		"php" : ">=5.4"
+		"bread/storage" : "~0.7",
+		"php" : ">=5.4",
+		"bread/configuration" : "~1.1",
+		"bread/promises" : "~1.0"
 	},
 	"autoload" : {
 		"psr-0" : {
