@@ -10,7 +10,7 @@ class Manager
 
     protected static $drivers = array();
     protected static $mapping = array();
-    
+
     public static function register($driver, $class, $options = array())
     {
         if (is_string($driver)) {
@@ -53,6 +53,7 @@ class Manager
 
 Configuration::defaults('Bread\Authentication\Manager', array(
     'drivers' => array(
-        'ldap' => 'Bread\Authentication\Drivers\LDAP'
+        'ldap' => 'Bread\Authentication\Drivers\LDAP',
+        'mysql' => 'Bread\Authentication\Drivers\Doctrine'
     )
 ));
