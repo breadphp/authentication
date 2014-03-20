@@ -13,19 +13,28 @@ class LDAP implements DriverInterface
 
     protected $link;
 
+    protected $params;
+
     public function __construct($uri, array $options = array())
     {
-        $params = array_merge(array(
+        $this->params = array_merge(array(
             'host' => 'localhost',
             'port' => self::DEFAULT_PORT
         ), parse_url($uri));
         $options = array_merge(array(
             'debug' => false
         ), $options);
-        if (!$this->link = ldap_connect($params['host'], $params['port'])) {
-            throw new Exception("Cannot connect to LDAP server {$params['host']}");
+        $this->connect();
+    }
+
+    protected function connect()
+    {
+        if (!$this->link || !@ldap_get_option($this->link, LDAP_OPT_PROTOCOL_VERSION)) {
+            if (!$this->link = ldap_connect($this->params['host'], $this->params['port'])) {
+                throw new Exception("Cannot connect to LDAP server {$this->params['host']}");
+            }
+            ldap_set_option($this->link, LDAP_OPT_PROTOCOL_VERSION, 3);
         }
-        ldap_set_option($this->link, LDAP_OPT_PROTOCOL_VERSION, 3);
     }
 
     public function __destruct()
@@ -35,6 +44,7 @@ class LDAP implements DriverInterface
 
     public function authenticate($class, $username, $password)
     {
+        $this->connect();
         if ($bindFormat = Configuration::get($class, 'authentication.options.bind.format')) {
             $bindAs = sprintf($bindFormat, $username);
         } else {
