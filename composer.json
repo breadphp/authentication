@@ -12,9 +12,7 @@
 		"authentication"
 	],
 	"homepage" : "https://github.com/breadphp/authentication",
-	"license" : [
-		"CC-BY-3.0"
-	],
+	"license" : "CC-BY-3.0",
 	"require" : {
 		"bread/storage" : "~0.7",
 		"php" : ">=5.4",
@@ -22,8 +20,8 @@
 		"bread/promises" : "~1.0"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"Bread\\Authentication" : "src"
+		"psr-4" : {
+			"Bread\\Authentication\\" : "src"
 		}
 	}
 }

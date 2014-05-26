@@ -12,10 +12,10 @@ class LDAP implements DriverInterface
     const DEFAULT_PORT = 389;
 
     protected $link;
-
     protected $params;
+    protected $domain;
 
-    public function __construct($uri, array $options = array())
+    public function __construct($uri, array $options = array(), $domain = '__default__')
     {
         $this->params = array_merge(array(
             'host' => 'localhost',
@@ -24,6 +24,7 @@ class LDAP implements DriverInterface
         $options = array_merge(array(
             'debug' => false
         ), $options);
+        $this->domain = $domain;
         $this->connect();
     }
 
@@ -45,7 +46,7 @@ class LDAP implements DriverInterface
     public function authenticate($class, $username, $password)
     {
         $this->connect();
-        if ($bindFormat = Configuration::get($class, 'authentication.options.bind.format')) {
+        if ($bindFormat = Configuration::get($class, 'authentication.options.bind.format', $this->domain)) {
             $bindAs = sprintf($bindFormat, $username);
         } else {
             $bindAs = $username;
